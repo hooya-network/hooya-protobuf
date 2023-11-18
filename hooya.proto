@@ -15,7 +15,21 @@ message File {
 message Image {
     int64 height = 1;
     int64 width = 2;
+    float aspect_ratio = 3;
+    repeated bytes colors = 4;
+    repeated Thumbnail thumbnails = 5;
 }
 
 message Video {
+}
+
+message Thumbnail {
+    bytes cid = 1;
+    int64 size = 2;
+    string mimetype = 3;
+    bytes source_cid = 4;
+    int64 height = 5;
+    int64 width = 6;
+    float aspect_ratio = 7;
+    bool is_animated = 8;
 }
