@@ -10,6 +10,9 @@ message File {
     bytes cid = 1;
     int64 size = 2;
     optional string mimetype = 3;
+    oneof ext_file {
+        Image image = 4;
+    }
 }
 
 message Image {
