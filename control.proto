@@ -13,6 +13,7 @@ service Control {
     rpc CidInfo (CidInfoRequest) returns (CidInfoReply);
     rpc ForgetFile (ForgetFileRequest) returns (ForgetFileReply);
     rpc RandomLocalFile (RandomLocalFileRequest) returns (RandomLocalFileReply);
+    rpc Reimport (ReimportRequest) returns (ReimportReply);
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
 }
 
@@ -23,6 +24,13 @@ message VersionReply {
     uint64 minor_version = 2;
     uint64 patch_version = 3;
     string pre_version = 4;
+}
+
+message ReimportRequest {
+    bytes cid = 1;
+}
+
+message ReimportReply {
 }
 
 message RandomLocalFileRequest {
