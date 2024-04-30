@@ -12,6 +12,7 @@ message File {
     optional string mimetype = 3;
     oneof ext_file {
         Image image = 4;
+        Video video = 5;
     }
 }
 
@@ -24,6 +25,11 @@ message Image {
 }
 
 message Video {
+    int64 height = 1;
+    int64 width = 2;
+    float aspect_ratio = 3;
+    repeated Thumbnail thumbnails = 4;
+    float duration = 5;
 }
 
 message Thumbnail {
@@ -36,3 +42,4 @@ message Thumbnail {
     float aspect_ratio = 7;
     bool is_animated = 8;
 }
+
