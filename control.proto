@@ -14,6 +14,8 @@ service Control {
     rpc ForgetFile (ForgetFileRequest) returns (ForgetFileReply);
     rpc RandomLocalFile (RandomLocalFileRequest) returns (RandomLocalFileReply);
     rpc Reimport (ReimportRequest) returns (ReimportReply);
+    rpc AllFiles(AllFilesRequest) returns (AllFilesReply);
+    // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
 }
 
@@ -41,15 +43,41 @@ message RandomLocalFileReply {
     repeated File file = 1;
 }
 
+message AllFilesRequest {
+    string page_token = 1;
+    uint32 page_size = 2;
+    ResultsSortOrder sort_order = 3;
+    bool reverse_order = 4;
+}
+
+message AllFilesReply {
+    string next_page_token = 1;
+    string total_pages = 2;
+    repeated File files = 3;
+}
+
+enum ResultsSortOrder {
+    most_recently_indexed = 0;
+    // most_tags = 1;
+    // largest_filesize = 2;
+}
+
+// deprecated
 message LocalFilePageRequest {
     uint32 page_size = 1;
     string page_token = 2;
     bool oldest_first = 3;
 }
 
+// deprecated
 message LocalFilePageReply {
     repeated File file = 1;
     string next_page_token = 2;
+}
+
+message PageRequest {
+    uint32 page_size = 1;
+    string page_token = 2;
 }
 
 message FileChunk {
