@@ -15,6 +15,8 @@ service Control {
     rpc RandomLocalFile (RandomLocalFileRequest) returns (RandomLocalFileReply);
     rpc Reimport (ReimportRequest) returns (ReimportReply);
     rpc AllFiles(AllFilesRequest) returns (AllFilesReply);
+    rpc Search(SearchRequest) returns (SearchReply);
+
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
 }
@@ -41,6 +43,63 @@ message RandomLocalFileRequest {
 
 message RandomLocalFileReply {
     repeated File file = 1;
+}
+
+message SearchRequest {
+    SearchQuery search_query = 1;
+    string page_token = 2;
+    uint32 page_size = 3;
+    ResultsSortOrder sort_order = 4;
+    bool reverse_order = 5;
+}
+
+message SearchQuery {
+    // This will get more complex if I add search operators like OR
+    // … these are joined with AND only for now
+    repeated TagQuery tag_query = 1;
+    optional I64Query size = 2;
+    optional string mimetype = 3;
+
+    oneof ext_attr {
+        ImageQuery image_query = 4;
+        VideoQuery video_query = 5;
+    }
+}
+
+message TagQuery {
+    optional string namespace = 1;
+    string descriptor = 2;
+    bool negated = 3;
+}
+
+message ImageQuery {
+    optional float aspect_ratio = 1;
+    optional I64Query height = 2;
+    optional I64Query width = 3;
+    // colors…
+    // wavelet…
+}
+
+message I64Query {
+    int64 magnitude = 1;
+    oneof description {
+        bool is_max = 2;
+        bool is_min = 3;
+        bool is_exact = 4;
+    }
+}
+
+message VideoQuery {
+    optional float aspect_ratio = 1;
+    optional I64Query height = 2;
+    optional I64Query width = 3;
+    optional I64Query duration = 4;
+}
+
+message SearchReply {
+    string next_page_token = 1;
+    string total_pages = 2;
+    repeated File files = 3;
 }
 
 message AllFilesRequest {
