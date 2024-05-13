@@ -16,6 +16,8 @@ service Control {
     rpc Reimport (ReimportRequest) returns (ReimportReply);
     rpc AllFiles(AllFilesRequest) returns (AllFilesReply);
     rpc Search(SearchRequest) returns (SearchReply);
+    // Given a search query, autocomplete the final term
+    rpc SuggestTag(SuggestTagRequest) returns (SuggestTagReply);
 
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
@@ -43,6 +45,25 @@ message RandomLocalFileRequest {
 
 message RandomLocalFileReply {
     repeated File file = 1;
+}
+
+message SuggestTagRequest {
+    // Existing query to filter by
+    repeated TagQuery tag_query = 1;
+    // namespace:descriptor to autocomplete
+    string suggest_string = 2;
+    int64 max_suggest = 3;
+}
+
+message SuggestTagReply {
+    repeated TagSuggestion tag_suggestion = 1;
+}
+
+message TagSuggestion {
+    optional string namespace = 1;
+    string descriptor = 2;
+    int64 count = 3;
+    int64 distance = 4;
 }
 
 message SearchRequest {
