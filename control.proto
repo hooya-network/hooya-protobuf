@@ -56,7 +56,10 @@ message SuggestTagRequest {
 }
 
 message SuggestTagReply {
+    // Suggested tag given constraints
     repeated TagSuggestion tag_suggestion = 1;
+    // Constraints
+    repeated TagQuery tag_constraints = 2;
 }
 
 message TagSuggestion {
