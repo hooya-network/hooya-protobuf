@@ -18,6 +18,7 @@ service Control {
     rpc Search(SearchRequest) returns (SearchReply);
     // Given a search query, autocomplete the final term
     rpc SuggestTag(SuggestTagRequest) returns (SuggestTagReply);
+    rpc AllTags(AllTagsRequest) returns (AllTagsReply);
 
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
@@ -122,8 +123,27 @@ message VideoQuery {
 
 message SearchReply {
     string next_page_token = 1;
-    string total_pages = 2;
+    string final_page_token = 2;
     repeated File files = 3;
+}
+
+message AllTagsRequest {
+    string page_token = 1;
+    uint32 page_size = 2;
+    TagResultsSortOrder sort_order = 3;
+    bool reverse_order = 4;
+}
+
+message AllTagsReply {
+    string next_page_token = 1;
+    string final_page_token = 2;
+    repeated TagInfo tags = 3;
+}
+
+message TagInfo {
+    string namespace = 1;
+    string descriptor = 2;
+    int64 count = 3;
 }
 
 message AllFilesRequest {
@@ -135,8 +155,12 @@ message AllFilesRequest {
 
 message AllFilesReply {
     string next_page_token = 1;
-    string total_pages = 2;
+    string final_page_token = 2;
     repeated File files = 3;
+}
+
+enum TagResultsSortOrder {
+    most_files = 0;
 }
 
 enum ResultsSortOrder {
