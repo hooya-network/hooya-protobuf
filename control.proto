@@ -5,7 +5,6 @@ import "hooya.proto";
 
 service Control {
     rpc Version (VersionRequest) returns (VersionReply);
-    rpc StreamToFilestore (stream FileChunk) returns (StreamToFilestoreReply);
     rpc TagCid (TagCidRequest) returns (TagCidReply);
     rpc Tags (TagsRequest) returns (TagsReply);
     rpc ContentAtCid (ContentAtCidRequest) returns (stream FileChunk);
@@ -28,6 +27,9 @@ service Control {
 
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
+
+    // deprecated
+    rpc StreamToFilestore (stream FileChunk) returns (StreamToFilestoreReply);
 }
 
 message VersionRequest { }
@@ -197,6 +199,7 @@ message FileChunk {
     bytes data = 1;
 }
 
+// deprecated
 message StreamToFilestoreReply {
     bytes cid = 1;
 }
