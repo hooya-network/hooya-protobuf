@@ -10,9 +10,10 @@ message File {
     bytes cid = 1;
     int64 size = 2;
     optional string mimetype = 3;
+    ProcessingStatus processing_status = 4;
     oneof ext_file {
-        Image image = 4;
-        Video video = 5;
+        Image image = 5;
+        Video video = 6;
     }
 }
 
@@ -41,5 +42,13 @@ message Thumbnail {
     int64 width = 6;
     float aspect_ratio = 7;
     bool is_animated = 8;
+}
+
+enum ProcessingStatus {
+    PROCESSING_FINISHED = 0;
+    PROCESSING_STARTED = 1;
+    PROCESSING_FAILED = 2;
+    THUMBNAIL_GENERATED = 3;
+    VIDEO_PREVIEW_GENERATED = 4;
 }
 
