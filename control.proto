@@ -6,6 +6,7 @@ import "hooya.proto";
 service Control {
     rpc Version (VersionRequest) returns (VersionReply);
     rpc TagCid (TagCidRequest) returns (TagCidReply);
+    rpc UntagCid (TagCidRequest) returns (TagCidReply);
     rpc Tags (TagsRequest) returns (TagsReply);
     rpc ContentAtCid (ContentAtCidRequest) returns (stream FileChunk);
     rpc CidThumbnail (CidThumbnailRequest) returns (stream FileChunk);
