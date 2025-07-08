@@ -5,6 +5,7 @@ import "hooya.proto";
 
 service Control {
     rpc Version (VersionRequest) returns (VersionReply);
+    rpc GetSystemInfo (SystemInfoRequest) returns (SystemInfoReply);
     rpc TagCid (TagCidRequest) returns (TagCidReply);
     rpc UntagCid (TagCidRequest) returns (TagCidReply);
     rpc Tags (TagsRequest) returns (TagsReply);
@@ -310,4 +311,34 @@ message ProcessingEvent {
     // metadata for specific event types
     optional uint32 long_edge = 4;  // for THUMBNAIL_GENERATED, VIDEO_PREVIEW_GENERATED
     optional string mimetype = 5;   // for THUMBNAIL_GENERATED, VIDEO_PREVIEW_GENERATED
+}
+
+// system info messages
+message SystemInfoRequest { }
+
+message SystemInfoReply {
+    // instance configuration
+    string instance_name = 1;
+    string operator_name = 2;
+    string node_id = 3;
+
+    // system statistics
+    SystemStats stats = 4;
+
+    // daemon version information
+    VersionInfo daemon_version = 5;
+}
+
+message SystemStats {
+    int64 files_indexed = 1;
+    int64 associations_count = 2;
+    int64 tags_count = 3;
+}
+
+message VersionInfo {
+    string version_string = 1;
+    uint64 major = 2;
+    uint64 minor = 3;
+    uint64 patch = 4;
+    string pre = 5;
 }
