@@ -28,6 +28,7 @@ service Control {
     rpc GetUploadStatus (GetUploadStatusRequest) returns (GetUploadStatusReply);
 
     rpc ProcessingEvents (ProcessingEventsRequest) returns (stream ProcessingEvent);
+    rpc InstanceEvents (InstanceEventsRequest) returns (stream ProcessingEvent);
 
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
@@ -302,6 +303,10 @@ enum UploadStatus {
 // processing events
 message ProcessingEventsRequest {
     bytes cid = 1;
+}
+
+// instance events
+message InstanceEventsRequest {
 }
 
 message ProcessingEvent {
