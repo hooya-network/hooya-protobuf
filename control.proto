@@ -67,6 +67,7 @@ message SuggestTagRequest {
     // namespace:descriptor to autocomplete
     string suggest_string = 2;
     int64 max_suggest = 3;
+    uint32 visibility_filter = 4;
 }
 
 message SuggestTagReply {
@@ -89,6 +90,7 @@ message SearchRequest {
     uint32 page_size = 3;
     ResultsSortOrder sort_order = 4;
     bool reverse_order = 5;
+    uint32 visibility_filter = 6;
 }
 
 message SearchQuery {
@@ -145,6 +147,7 @@ message AllTagsRequest {
     uint32 page_size = 2;
     TagResultsSortOrder sort_order = 3;
     bool reverse_order = 4;
+    uint32 visibility_filter = 5;
 }
 
 message AllTagsReply {
@@ -164,6 +167,7 @@ message AllFilesRequest {
     uint32 page_size = 2;
     ResultsSortOrder sort_order = 3;
     bool reverse_order = 4;
+    uint32 visibility_filter = 5;
 }
 
 message AllFilesReply {
@@ -275,6 +279,7 @@ message UploadChunkReply {
 
 message CompleteUploadRequest {
     string upload_id = 1;
+    repeated Tag tags = 2;
 }
 
 message CompleteUploadReply {
