@@ -30,6 +30,12 @@ service Control {
     rpc ProcessingEvents (ProcessingEventsRequest) returns (stream ProcessingEvent);
     rpc InstanceEvents (InstanceEventsRequest) returns (stream ProcessingEvent);
 
+    // chatting
+    rpc SendChatMessage (SendChatMessageRequest) returns (SendChatMessageReply);
+    rpc GetChatHistory (GetChatHistoryRequest) returns (GetChatHistoryReply);
+    rpc GetChatChannels (GetChatChannelsRequest) returns (GetChatChannelsReply);
+    rpc ChatEvents (ChatEventsRequest) returns (stream ChatEvent);
+
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
 
@@ -353,4 +359,54 @@ message VersionInfo {
     uint64 minor = 3;
     uint64 patch = 4;
     string pre = 5;
+}
+
+// chats
+message SendChatMessageRequest {
+    string channel = 1;
+    string content = 2;
+}
+
+message SendChatMessageReply {
+    string message_id = 1;
+}
+
+message GetChatHistoryRequest {
+    string channel = 1;
+    string page_token = 2;
+    uint32 page_size = 3;
+}
+
+message GetChatHistoryReply {
+    repeated ChatMessageInfo messages = 1;
+    string next_page_token = 2;
+}
+
+message ChatMessageInfo {
+    string channel = 1;
+    string content = 2;
+    string node_id = 3;
+    bytes signature = 4;
+}
+
+message GetChatChannelsRequest {}
+
+message GetChatChannelsReply {
+    repeated ChatChannelInfo channels = 1;
+}
+
+message ChatChannelInfo {
+    string name = 1;
+}
+
+message ChatEventsRequest {}
+
+// TODO(wesl-ee) this should eventually be generalized to a NetEvent thing
+//               because we use the same sig across all net events on the
+//               daemon side
+message ChatEvent {
+    string channel = 1;
+    string content = 2;
+    string node_id = 3;
+    bytes signature = 4;
 }

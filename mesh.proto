@@ -1,0 +1,28 @@
+syntax = "proto3";
+package hooya.mesh;
+
+// envelope
+message MeshMessage {
+    // probably good for forward compat
+    uint32 version = 1;
+    // unix timetamp (seconds)
+    uint64 timestamp = 2;
+    // pubkey
+    string sender_node_id = 3;
+    // signature
+    bytes signature = 4;
+    // message type and payload
+    oneof payload {
+        // just chatting for now but...
+        // could be much more?
+        ChatMessage chat = 10;
+    }
+}
+
+// per-channel chat
+message ChatMessage {
+    // channel name
+    string channel = 1;
+    // content
+    string content = 2;
+}
