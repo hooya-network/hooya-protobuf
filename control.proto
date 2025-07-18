@@ -27,14 +27,12 @@ service Control {
     rpc CompleteUpload (CompleteUploadRequest) returns (CompleteUploadReply);
     rpc GetUploadStatus (GetUploadStatusRequest) returns (GetUploadStatusReply);
 
-    rpc ProcessingEvents (ProcessingEventsRequest) returns (stream ProcessingEvent);
-    rpc InstanceEvents (InstanceEventsRequest) returns (stream ProcessingEvent);
+    rpc InstanceEvents (InstanceEventsRequest) returns (stream InstanceEvent);
 
     // chatting
     rpc SendChatMessage (SendChatMessageRequest) returns (SendChatMessageReply);
     rpc GetChatHistory (GetChatHistoryRequest) returns (GetChatHistoryReply);
     rpc GetChatChannels (GetChatChannelsRequest) returns (GetChatChannelsReply);
-    rpc ChatEvents (ChatEventsRequest) returns (stream ChatEvent);
 
     // deprecated
     rpc LocalFilePage (LocalFilePageRequest) returns (LocalFilePageReply);
@@ -314,12 +312,15 @@ enum UploadStatus {
 }
 
 // processing events
-message ProcessingEventsRequest {
-    bytes cid = 1;
-}
-
 // instance events
 message InstanceEventsRequest {
+}
+
+message InstanceEvent {
+    oneof event_type {
+        ProcessingEvent processing = 1;
+        ChatEvent chat = 2;
+    }
 }
 
 message ProcessingEvent {
@@ -329,6 +330,13 @@ message ProcessingEvent {
     // metadata for specific event types
     optional uint32 long_edge = 4;  // for THUMBNAIL_GENERATED, VIDEO_PREVIEW_GENERATED
     optional string mimetype = 5;   // for THUMBNAIL_GENERATED, VIDEO_PREVIEW_GENERATED
+}
+
+message ChatEvent {
+    string channel = 1;
+    string content = 2;
+    string node_id = 3;
+    bytes signature = 4;
 }
 
 // system info messages
@@ -399,14 +407,3 @@ message ChatChannelInfo {
     string name = 1;
 }
 
-message ChatEventsRequest {}
-
-// TODO(wesl-ee) this should eventually be generalized to a NetEvent thing
-//               because we use the same sig across all net events on the
-//               daemon side
-message ChatEvent {
-    string channel = 1;
-    string content = 2;
-    string node_id = 3;
-    bytes signature = 4;
-}
