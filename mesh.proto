@@ -7,10 +7,12 @@ message MeshMessage {
     uint32 version = 1;
     // unix timetamp (seconds)
     uint64 timestamp = 2;
-    // pubkey
+    // node id
     string sender_node_id = 3;
     // signature
     bytes signature = 4;
+    // pubkey
+    bytes pubkey = 5;
     // message type and payload
     oneof payload {
         // just chatting for now but...
