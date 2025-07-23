@@ -15,6 +15,7 @@ message File {
         Image image = 5;
         Video video = 6;
     }
+    repeated Tag tags = 7;
 }
 
 message Image {
