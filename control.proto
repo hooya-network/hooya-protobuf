@@ -8,6 +8,8 @@ service Control {
     rpc GetSystemInfo (SystemInfoRequest) returns (SystemInfoReply);
     rpc TagCid (TagCidRequest) returns (TagCidReply);
     rpc UntagCid (TagCidRequest) returns (TagCidReply);
+    rpc BatchTagCid (BatchTagCidRequest) returns (BatchTagCidReply);
+    rpc BatchUntagCid (BatchTagCidRequest) returns (BatchTagCidReply);
     rpc Tags (TagsRequest) returns (TagsReply);
     rpc ContentAtCid (ContentAtCidRequest) returns (stream FileChunk);
     rpc CidThumbnail (CidThumbnailRequest) returns (stream FileChunk);
@@ -231,6 +233,25 @@ message TagCidRequest {
 }
 
 message TagCidReply {
+}
+
+message CidTagPair {
+    bytes cid = 1;
+    repeated Tag tags = 2;
+}
+
+message BatchTagCidRequest {
+    repeated CidTagPair cid_tag_pairs = 1;
+}
+
+message BatchTagCidReply {
+    repeated TagCidResult results = 1;
+}
+
+message TagCidResult {
+    bytes cid = 1;
+    bool success = 2;
+    optional string error_message = 3;
 }
 
 message ContentAtCidRequest {
